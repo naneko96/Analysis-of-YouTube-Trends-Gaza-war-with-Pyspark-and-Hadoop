@@ -1,0 +1,97 @@
+services:
+  namenode:
+    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+    container_name: namenode
+    hostname: namenode
+    restart: always
+    ports:
+      - "9870:9870"
+      - "9000:9000"
+    environment:
+      - CLUSTER_NAME=hadoop
+    env_file:
+      - ./hadoop.env
+    volumes:
+      - hadoop_namenode:/hadoop/dfs/name
+
+  secondary-namenode:
+    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+    container_name: secondary-namenode
+    hostname: secondary-namenode
+    restart: always
+    command: ["/run.sh", "secondarynamenode"]
+    environment:
+      - SERVICE_PRECONDITION=namenode:9870
+      - CLUSTER_NAME=hadoop
+    env_file:
+      - ./hadoop.env
+    volumes:
+      - hadoop_secondarynamenode:/hadoop/dfs/namesecondary
+
+  datanode1:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: datanode1
+    hostname: datanode1
+    restart: always
+    ports:
+      - "9864:9864"
+    environment:
+      - SERVICE_PRECONDITION=namenode:9870
+      - CLUSTER_NAME=hadoop
+    env_file:
+      - ./hadoop.env
+    volumes:
+      - hadoop_datanode1:/hadoop/dfs/data
+
+  datanode2:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: datanode2
+    hostname: datanode2
+    restart: always
+    ports:
+      - "9865:9864"
+    environment:
+      - SERVICE_PRECONDITION=namenode:9870
+      - CLUSTER_NAME=hadoop
+    env_file:
+      - ./hadoop.env
+    volumes:
+      - hadoop_datanode2:/hadoop/dfs/data
+
+  datanode3:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: datanode3
+    hostname: datanode3
+    restart: always
+    ports:
+      - "9866:9864"
+    environment:
+      - SERVICE_PRECONDITION=namenode:9870
+      - CLUSTER_NAME=hadoop
+    env_file:
+      - ./hadoop.env
+    volumes:
+      - hadoop_datanode3:/hadoop/dfs/data
+
+  datanode4:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: datanode4
+    hostname: datanode4
+    restart: always
+    ports:
+      - "9867:9864"
+    environment:
+      - SERVICE_PRECONDITION=namenode:9870
+      - CLUSTER_NAME=hadoop
+    env_file:
+      - ./hadoop.env
+    volumes:
+      - hadoop_datanode4:/hadoop/dfs/data
+
+volumes:
+  hadoop_namenode:
+  hadoop_secondarynamenode:
+  hadoop_datanode1:
+  hadoop_datanode2:
+  hadoop_datanode3:
+  hadoop_datanode4:
