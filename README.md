@@ -1,5 +1,5 @@
 # YouTube Big Data Analysis (Gaza 2024)
-**Author:** Adam Jebali | **Class:** 3IM1
+
 
 A distributed Big Data pipeline for analyzing YouTube comments using a Hadoop Cluster (Docker) and PySpark.
 
