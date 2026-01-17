@@ -8,8 +8,8 @@ client = InsecureClient('http://localhost:9870', user='root')
 
 def fetch_comprehensive_data(query):
     try:
-        print(f"🚀 Collecting Data for: {query}...")
-        # 1. Search for videos with pagination for higher volume
+        print(f" Collecting Data for: {query}...")
+        
         all_video_data = []
         search_req = youtube.search().list(q=query, part='snippet', maxResults=50, type='video')
         search_res = search_req.execute()
@@ -17,12 +17,12 @@ def fetch_comprehensive_data(query):
         for item in search_res.get('items', []):
             v_id = item['id']['videoId']
             
-            # 2. Get Engagement Metrics (Requirement: viewCount, likeCount)
+  
             stats_req = youtube.videos().list(part="statistics", id=v_id)
             stats_res = stats_req.execute()
             stats = stats_res['items'][0]['statistics'] if stats_res['items'] else {}
 
-            # 3. Get Comments (Requirement: "tous les commentaires")
+
             comments = []
             try:
                 comment_req = youtube.commentThreads().list(part="snippet", videoId=v_id, maxResults=100)
@@ -38,7 +38,6 @@ def fetch_comprehensive_data(query):
                 "comments": comments
             })
 
-        # 4. Upload to HDFS
         client.makedirs('/user/youtube')
         with client.write('/user/youtube/data.json', encoding='utf-8', overwrite=True) as writer:
             json.dump(all_video_data, writer)

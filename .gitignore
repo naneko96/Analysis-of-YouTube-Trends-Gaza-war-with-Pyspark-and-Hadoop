@@ -1,10 +1,7 @@
 # Credentials
 .env
 data.json
-top_keywords.csv
-sentiment_results.csv
-engagement_results.csv
-gaza_final_dashboard.png
+
 
 # Python
 __pycache__/
